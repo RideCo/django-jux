@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-jux',
-    version='1.0.3dev',
+    version='1.1',
     description='JUnit-style XML output for Django tests',
     author='Sean Myers',
     author_email='sean.dst@gmail.com',
@@ -11,7 +11,7 @@ setup(
     license='MIT Expat License',
     long_description=open('README.rst').read(),
     install_requires=[
-        'Django >= 1.3',
+        'Django >= 1.6',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -21,7 +21,8 @@ setup(
         'License :: Freely Distributable',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Build Tools',
         'Topic :: Software Development :: Testing',
     ]
