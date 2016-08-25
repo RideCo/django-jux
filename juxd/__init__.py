@@ -7,8 +7,14 @@ import time
 from xml.etree import ElementTree as ET
 
 from django.conf import settings
-from django.test.simple import DjangoTestSuiteRunner
-from django.utils.unittest import TextTestRunner, TextTestResult
+from django.test.runner import DiscoverRunner
+
+try:
+    # Django 1.6
+    from django.utils.unittest import TextTestRunner, TextTestResult
+except ImportError:
+    # Django 1.7+ because bundled unittest is going away
+    from unittest import TextTestRunner, TextTestResult
 
 class JUXDTestResult(TextTestResult):
     def startTest(self, test):
@@ -68,7 +74,9 @@ class JUXDTestResult(TextTestResult):
         super(JUXDTestResult, self).stopTestRun()
 
     def _make_testcase_element(self, test):
-        time_taken = time.time() - self.case_start_time
+        time_taken = 0.0
+        if hasattr(self, 'case_start_time'):
+            time_taken = time.time() - self.case_start_time
         classname = ('%s.%s' % (test.__module__, test.__class__.__name__)).split('.')
         testcase = ET.SubElement(self.tree, 'testcase')
         testcase.set('time', "%.6f" % time_taken)
@@ -89,6 +97,6 @@ class JUXDTestRunner(TextTestRunner):
     resultclass = JUXDTestResult
 
 
-class JUXDTestSuiteRunner(DjangoTestSuiteRunner):
+class JUXDTestSuiteRunner(DiscoverRunner):
     def run_suite(self, suite, **kwargs):
         return JUXDTestRunner(verbosity=self.verbosity, failfast=self.failfast).run(suite)

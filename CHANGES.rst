@@ -1,6 +1,12 @@
 Changelog for django-jux
 ========================
 
+1.1
+---
+
+- Django 1.6+ support
+
+
 1.0.3 (unreleased)
 ------------------
 
