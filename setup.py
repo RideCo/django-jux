@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-jux',
-    version='1.1',
+    version='1.1.1',
     description='JUnit-style XML output for Django tests',
     author='Sean Myers',
     author_email='sean.dst@gmail.com',

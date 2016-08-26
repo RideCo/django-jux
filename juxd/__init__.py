@@ -16,26 +16,52 @@ except ImportError:
     # Django 1.7+ because bundled unittest is going away
     from unittest import TextTestRunner, TextTestResult
 
+RESET = "\033[0m"
+BOLD = "\033[1m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+
+
 class JUXDTestResult(TextTestResult):
     def startTest(self, test):
         self.case_start_time = time.time()
         super(JUXDTestResult, self).startTest(test)
 
+    def _time(self, testcase, text, color):
+        return '%s%s%s (%ss)%s' % (BOLD, color, text,
+                                   testcase.get('time'), RESET)
+
     def addSuccess(self, test):
-        self._make_testcase_element(test)
-        super(JUXDTestResult, self).addSuccess(test)
+        testcase = self._make_testcase_element(test)
+        if self.showAll:
+            self.stream.writeln(self._time(testcase, 'OK', GREEN))
+        elif self.dots:
+            self.stream.write('.')
+            self.stream.flush()
+        super(TextTestResult, self).addSuccess(test)
 
     def addFailure(self, test, err):
         testcase = self._make_testcase_element(test)
         test_result = ET.SubElement(testcase, 'failure')
         self._add_tb_to_test(test, test_result, err)
-        super(JUXDTestResult, self).addFailure(test, err)
+        if self.showAll:
+            self.stream.writeln(self._time(testcase, 'FAIL', YELLOW))
+        elif self.dots:
+            self.stream.write('F')
+            self.stream.flush()
+        super(TextTestResult, self).addFailure(test, err)
 
     def addError(self, test, err):
         testcase = self._make_testcase_element(test)
         test_result = ET.SubElement(testcase, 'error')
         self._add_tb_to_test(test, test_result, err)
-        super(JUXDTestResult, self).addError(test, err)
+        if self.showAll:
+            self.stream.writeln(self._time(testcase, 'ERROR', RED))
+        elif self.dots:
+            self.stream.write('E')
+            self.stream.flush()
+        super(TextTestResult, self).addError(test, err)
 
     def addUnexpectedSuccess(self, test):
         testcase = self._make_testcase_element(test)

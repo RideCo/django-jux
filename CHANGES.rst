@@ -1,6 +1,12 @@
 Changelog for django-jux
 ========================
 
+1.1.1
+-----
+
+- Add more flair to the test outputs, including amount of time.
+
+
 1.1
 ---
 

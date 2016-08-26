@@ -11,10 +11,10 @@ It does a few notable things:
 * Supports all available unittest2 outcomes (success, failure, error, etc...)
 * Works with builtin ElementTree to generate the XML output
 
-This job can be done using nose's xunit plugin, but with the unittest 
-improvements in Python 2.7, my only reason for using nose was for the xunit 
-plugin itself. nose is a bit of a heavy hitter, but it's a (really good) 
-generic test runner, not django specific. I wanted something a little more 
+This job can be done using nose's xunit plugin, but with the unittest
+improvements in Python 2.7, my only reason for using nose was for the xunit
+plugin itself. nose is a bit of a heavy hitter, but it's a (really good)
+generic test runner, not django specific. I wanted something a little more
 targeted, and this is the result.
 
 The main motivator behind this was getting test output into Jenkins CI,
@@ -23,14 +23,14 @@ which works perfectly.
 Installation
 ============
 
-Install Django >=1.3 and set up a project.
+Install Django >=1.6 and set up a project.
 Then, in your django project settings:
 
 ::
 
     # Tell Django to use the JUXD Test Suite Runner
     TEST_RUNNER = 'juxd.JUXDTestSuiteRunner'
-    # Where to write the output 
+    # Where to write the output
     JUXD_FILENAME = '/path/to/junit.xml'
 
 Thanks
@@ -43,7 +43,7 @@ __ https://bitbucket.org/jpellerin/unittest2
 
 * `xunit plugin for nose`__
 
-__ http://nosexunit.sourceforge.net/ 
+__ http://nosexunit.sourceforge.net/
 
 * `Jenkins CI`__
 
