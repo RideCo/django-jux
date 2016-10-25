@@ -107,7 +107,12 @@ class JUXDTestResult(TextTestResult):
         testcase = ET.SubElement(self.tree, 'testcase')
         testcase.set('time', "%.6f" % time_taken)
         testcase.set('classname', '.'.join(classname))
-        testcase.set('name', test._testMethodName)
+        name = getattr(test, '_testMethodName', None)
+        if not name:
+            name = getattr(test, 'description', None)
+        if not name:
+            name = 'ERROR in test class %s' % test.__class__.__name__
+        testcase.set('name', name)
         return testcase
 
     def _add_tb_to_test(self, test, test_result, err):
